@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>test page</title>
-	<link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <head>
+        <title>Youtube search</title>
+        <meta charset="UTF-8" />
+        <script src="main.js"></script>
+        <script src="https://apis.google.com/js/client.js?onload=onClientLoad" type="text/javascript"></script>
 
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body id="body" onresize="resize()"> <!-- id="body" onresize="resize()" -->
+        <header>
+            <h1 ><a href="index.html">YouTube Search</a></h1>
+        </header>
 
-			<h1>Test</h1>
+        <input id="SearchValue" value="cat" type="text" size="30">
+        <button onclick="FirstRequest()">Search</button>
 
-		</div>
-	</div>
+        <div class = "ScreenBlock" id = "s">
+      		<div class = "listBlock" id = "list">
+      		</div>
+      	</div>
 
-
-
-</body>
+    </body>
 </html>

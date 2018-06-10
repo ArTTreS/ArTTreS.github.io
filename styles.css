@@ -1,0 +1,48 @@
+.ScreenBlock
+{
+	margin:auto;
+	overflow-x: hidden;
+}
+.block
+{
+	float: left;
+	width: 300px;
+	height: 500px;
+	background-color: #ffffff;
+	float: left;
+	margin: 10px;
+    -webkit-user-select: none; /* Safari */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+
+}
+
+.block img
+{
+	width: 100%;
+}
+
+.block h1
+{
+	font-size: 15px;
+}
+
+
+.block h2
+{
+	font-size: 12px;
+}
+
+
+.block p
+{
+	font-size: 12px;
+}
+
+.listBlock
+{
+	display: inline-flex;
+	background-color: #777777;
+
+}
