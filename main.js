@@ -90,7 +90,7 @@ function acceleratemouse(accelerate){
     }
     checkEndPage();
 }
-
+}
 function checkEndPage()
 {
 	let WindowSize = document.getElementById('body').clientWidth;
