@@ -4,16 +4,15 @@ document.addEventListener('mousemove', mousemove, false);
 var XcoordStart,XcoordFinish;
 var Checkmousedown=false;
 var blockArr = [] ;
-var accel = 2;
+//var accelcoef = 1.5;
 var VisibleBlock;
 var ResultOfSearch;
-
-var currcurrelementwidth = 300;
+var currelementwidth = 300;
 const maxSize = 320;
 const YoutubeSearchPrefix = "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&key=AIzaSyBj9fepxKAHCosi4l3mvAVX1IGMXCMXbEY&q=";//позволяет искать 20 результатов за раз на странице
 const VideoPrefix = "https://www.youtube.com/watch?v="//далее id Video для ссылки на тытрубу
-const VideoDetailsPrefix = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&key=AIzaSyBj9fepxKAHCosi4l3mvAVX1IGMXCMXbEY&id=";
-var inInEnd = false;
+const VideoDetailsPrefix = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&key=AIzaSyBj9fepxKAHCosi4l3mvAVX1IGMXCMXbEY&id=";//для duration,
+var InTheEnd = false;
 
 
 ///////////////////////////////////////////////////////////////youtube api loading
@@ -28,29 +27,33 @@ function onYouTubeApiLoad() {
 function mousedown(evt)
 {
 	Checkmousedown = true;
+
 }
 
 function mousemove(evt)
 {
 	 XcoordStart =  evt.screenX;
+   let startTimeMouse = date();
 	if (Checkmousedown )
 	{
 		VisibleBlock.scrollLeft += XcoordFinish-XcoordStart;
+    var tospeed = XcoordFinish-XcoordStart;//для некой инерции движения
+
 
 	}
 	XcoordFinish = evt.screenX;
 }
 
 function resize(){
-    var scrollpoint = VisibleBlock.scrollLeft;                  //Ещё одна функция, что принесла боль
-    var curretSeen = Math.floor((scrollpoint+2)/currelementwidth);       //высчитываем на каком элементе остановочка
-    var newWindowSize = document.getElementById('body').clientWidth;
-    var targetOnScreen = Math.floor(newWindowSize/maxSize) + 1;      //Считаем сколько элементов на экране должно быть
-    var targetBlockArraySize = targetOnScreen*maxSize;				//Размер окна для этого числа элементов
-    var targetAndWindowDif = newWindowSize - targetBlockArraySize;
-    var sizeCurrection = targetAndWindowDif / targetOnScreen;
-    var currectedSize = (maxSize + sizeCurrection - 20)+'px';		//высчитываем коррекционный размер для каждого.
-    for (var i = 0; i < blockArr.length; i++)						//математика и бумага рулит
+    let scrollpoint = VisibleBlock.scrollLeft;
+    let curretSeen = Math.floor((scrollpoint+2)/currelementwidth);
+    let newWindowSize = document.getElementById('body').clientWidth;
+    let targetOnScreen = Math.floor(newWindowSize/maxSize) + 1;//макс кол-во элементов
+    let targetBlockArraySize = targetOnScreen*maxSize;
+    let targetAndWindowDif = newWindowSize - targetBlockArraySize;
+    let sizeCurrection = targetAndWindowDif / targetOnScreen;
+    let currectedSize = (maxSize + sizeCurrection - 20)+'px';
+    for (var i = 0; i < blockArr.length; i++)
     {
       blockArr[i].style.width = currectedSize;
     }
@@ -61,20 +64,44 @@ function resize(){
 function mouseup(evt)
 {
 	Checkmousedown = false;
-	checkEndPage();
+  let intervalMouseUp = Date()-startTimeMouse;
+  let accelerate=2*abs(tospeed)/(intervalMouseUp*intervalMouseUp);
+  acceleratemouse(accelerate);
+}
+
+function acceleratemouse(accelerate){
+  if (!(Checkmousedown))
+ {
+
+   scrollItem.scrollLeft += tospeed;
+   if (abs(tospeed) > accelerate){
+     if(tospeed>0){
+       tospeed-=accelerate*100/2;
+     }
+     else {
+       tospeed+=accelerate*100/2;
+     }
+     setTimeOut(function(){ acceleratemouse();},10);
+   }
+   else{
+   if (abs(tospeed) < accelerate){
+      tospeed = 0;
+    }
+    }
+    checkEndPage();
 }
 
 function checkEndPage()
 {
-	var WindowSize = document.getElementById('body').clientWidth;
-	if ((VisibleBlock.scrollLeft+WindowSize+5 > listBlock.clientWidth) && !(inInEnd))
+	let WindowSize = document.getElementById('body').clientWidth;
+	if ((VisibleBlock.scrollLeft+WindowSize+5 > listBlock.clientWidth) && !(InTheEnd))
 	{
-		inInEnd = true;
+		InTheEnd = true;
 		NextPageRequest();
 	}
 	if (VisibleBlock.scrollLeft+WindowSize < listBlock.clientWidth - maxSize*2)
 	{
-		inInEnd = false;
+		InTheEnd = false;
 	}
 }
 
@@ -108,7 +135,7 @@ function FirstRequest(){
     listclear();//очистка перед новым поиском
    let StrRequest = document.getElementById('SearchValue').value;
    var xhr = new XMLHttpRequest();//загрузка данных с сервера
-   xhr.open("GET",YoutubeSearchPrefix+StrRequest,false);//метод GET,YoutubeApiSearch+StrRequest описано выше
+   xhr.open("GET",YoutubeSearchPrefix+StrRequest,false);//метод GET,YoutubeApiSearch+StrRequest
    xhr.send();
    if (xhr.status != 200) {
      //xhr.status запроса,если не 200 то ошибка
@@ -117,7 +144,7 @@ function FirstRequest(){
       else
     {
       ResultOfSearch = JSON.parse(xhr.responseText);
-      alert(xhr.responseText);
+      //alert(xhr.responseText);
     }
     loading();
 }
@@ -130,11 +157,10 @@ function loading()
   listBlock = document.getElementById('list');
   for (let i=0;i<ResultOfSearch.items.length;i++){ //let так как в пределах цикла
       if (!(ResultOfSearch.items[i].id.videoId==null)){
-        var element = document.createElement('div');		//такие видео ломают логику, поэтому убраны
+        var element = document.createElement('div');
       	element.className = 'block';
       	listBlock.appendChild(element);
-      	blockArr.push(element); 					//Итак блок создан
-  													//в красоту
+      	blockArr.push(element); 					//сам блок
       	var a = document.createElement('a');		//ссылка
       	a.setAttribute("href", VideoPrefix + ResultOfSearch.items[i].id.videoId);
       	a.setAttribute("target", "_blank");
@@ -176,6 +202,6 @@ function loading()
       	}
   	}
   	resize();
-  	
+
 
 }
