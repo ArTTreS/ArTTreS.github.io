@@ -1,11 +1,9 @@
 document.addEventListener('mousedown', mousedown, false);
 document.addEventListener('mouseup', mouseup, false);
 document.addEventListener('mousemove', mousemove, false);
-var XcoordStart,XcoordFinish;
+var XcoordStart,XcoordFinish,tospeed;
 var Checkmousedown=false;
 var blockArr = [] ;
-//var accelcoef = 1.5;
-var tospeed;
 var VisibleBlock;
 var ResultOfSearch;
 var currelementwidth = 300;
@@ -74,7 +72,7 @@ function acceleratemouse(accelerate){
   if (!(Checkmousedown))
  {
 
-   scrollItem.scrollLeft += tospeed;
+   VisibleBlock.scrollLeft += tospeed;
    if (abs(tospeed) > accelerate){
      if(tospeed>0){
        tospeed-=accelerate*100/2;
