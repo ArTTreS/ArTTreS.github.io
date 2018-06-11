@@ -33,7 +33,7 @@ function mousedown(evt)
 function mousemove(evt)
 {
 	 XcoordStart =  evt.screenX;
-   var startTimeMouse = Date();
+   var startTimeMouse = new Date();
 	if (Checkmousedown )
 	{
 		VisibleBlock.scrollLeft += XcoordFinish-XcoordStart;
@@ -64,7 +64,8 @@ function resize(){
 function mouseup(evt)
 {
 	Checkmousedown = false;
-  let intervalMouseUp = Date()-startTimeMouse;
+  let endTimeDate = new Date();
+  let intervalMouseUp = endTimeDate-startTimeMouse;
   let accelerate=2*abs(tospeed)/(intervalMouseUp*intervalMouseUp);
   acceleratemouse(accelerate);
 }
