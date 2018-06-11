@@ -68,7 +68,7 @@ function mouseup(evt)
 	Checkmousedown = false;
   let endTimeDate = new Date();
   let intervalMouseUp = endTimeDate-startTimeMouse;
-  let accelerate=2*abs(tospeed)/(intervalMouseUp*intervalMouseUp);
+  let accelerate=2*Math.abs(tospeed)/(intervalMouseUp*intervalMouseUp);
   acceleratemouse(accelerate);
 }
 
