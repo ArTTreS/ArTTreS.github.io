@@ -5,6 +5,7 @@ var XcoordStart,XcoordFinish;
 var Checkmousedown=false;
 var blockArr = [] ;
 //var accelcoef = 1.5;
+var startTimeMouse;
 var VisibleBlock;
 var ResultOfSearch;
 var currelementwidth = 300;
