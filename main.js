@@ -33,7 +33,7 @@ function mousedown(evt)
 function mousemove(evt)
 {
 	 XcoordStart =  evt.screenX;
-   let startTimeMouse = date();
+   var startTimeMouse = Date();
 	if (Checkmousedown )
 	{
 		VisibleBlock.scrollLeft += XcoordFinish-XcoordStart;
