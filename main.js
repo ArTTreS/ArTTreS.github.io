@@ -5,7 +5,7 @@ var XcoordStart,XcoordFinish;
 var Checkmousedown=false;
 var blockArr = [] ;
 //var accelcoef = 1.5;
-var startTimeMouse;
+
 var VisibleBlock;
 var ResultOfSearch;
 var currelementwidth = 300;
@@ -14,7 +14,7 @@ const YoutubeSearchPrefix = "https://www.googleapis.com/youtube/v3/search?part=s
 const VideoPrefix = "https://www.youtube.com/watch?v="//далее id Video для ссылки на тытрубу
 const VideoDetailsPrefix = "https://www.googleapis.com/youtube/v3/videos?part=contentDetails&key=AIzaSyBj9fepxKAHCosi4l3mvAVX1IGMXCMXbEY&id=";//для duration,
 var InTheEnd = false;
-
+var startTimeMouse;
 
 ///////////////////////////////////////////////////////////////youtube api loading
 function onClientLoad() {
@@ -34,8 +34,9 @@ function mousedown(evt)
 function mousemove(evt)
 {
 	 XcoordStart =  evt.screenX;
-   var startTimeMouse = new Date();
-	if (Checkmousedown )
+   var asf = new Date();
+   startTimeMouse = asf;
+  if (Checkmousedown )
 	{
 		VisibleBlock.scrollLeft += XcoordFinish-XcoordStart;
     var tospeed = XcoordFinish-XcoordStart;//для некой инерции движения
