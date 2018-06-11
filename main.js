@@ -5,6 +5,7 @@ var XcoordStart,XcoordFinish,tospeed;
 var Checkmousedown=false;
 var blockArr = [] ;
 var VisibleBlock;
+var accelerate;
 var ResultOfSearch;
 var currelementwidth = 300;
 const maxSize = 320;
@@ -33,18 +34,18 @@ function mousemove(evt)
 {
 	 XcoordStart =  evt.screenX;
    var asf = new Date();
-   startTimeMouse = asf;
+
   if (Checkmousedown )
 	{
 		VisibleBlock.scrollLeft += XcoordFinish-XcoordStart;
-    tospeed = XcoordFinish-XcoordStart;//для некой инерции движения
+
 	}
 	XcoordFinish = evt.screenX;
+  tospeed = XcoordFinish-XcoordStart;//для некой инерции движения
 }
 
 function resize(){
-    let scrollpoint = VisibleBlock.scrollLeft;
-    let curretSeen = Math.floor((scrollpoint+2)/currelementwidth);
+    let curretSeen = Math.floor((VisibleBlock.scrollLeft+2)/currelementwidth);
     let newWindowSize = document.getElementById('body').clientWidth;
     let targetOnScreen = Math.floor(newWindowSize/maxSize) + 1;//макс кол-во элементов
     let targetBlockArraySize = targetOnScreen*maxSize;
@@ -61,35 +62,30 @@ function resize(){
 
 function mouseup(evt)
 {
+
 	Checkmousedown = false;
-  let endTimeDate = new Date();
-  let intervalMouseUp = endTimeDate-startTimeMouse;
-  let accelerate=(2*(Math.abs(tospeed)))/(intervalMouseUp*intervalMouseUp);
-  acceleratemouse(accelerate);
+  checkEndPage();
 }
 
-function acceleratemouse(accelerate){
+/*function acceleratemouse(){
   if (!(Checkmousedown))
  {
 
    VisibleBlock.scrollLeft += tospeed;
-   if (abs(tospeed) > accelerate){
-     if(tospeed>0){
-       tospeed-=accelerate*100/2;
-     }
-     else {
-       tospeed+=accelerate*100/2;
-     }
-     setTimeOut(function(){ acceleratemouse();},10);
-   }
-   else{
-   if (abs(tospeed) < accelerate){
-      tospeed = 0;
-    }
-    }
+   //if (Math.abs(tospeed) > accelerate){
+
+       if (tospeed>1){tospeed-=tospeed/2;setTimeout(function(){ acceleratemouse();},10);}
+       if (tospeed<-1){tospeed+=tospeed/2;setTimeout(function(){ acceleratemouse();},10);}
+       if (tospeed<1){tospeed=0;}
+       if (tospeed>-1){tospeed=0;}
+    //else if (Math.abs(tospeed)<1) {tospeed=0;
+      }
+
+
+
     checkEndPage();
-  }
-}
+
+}*/
 
 function checkEndPage()
 {
