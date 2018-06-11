@@ -5,7 +5,7 @@ var XcoordStart,XcoordFinish;
 var Checkmousedown=false;
 var blockArr = [] ;
 //var accelcoef = 1.5;
-
+var tospeed;
 var VisibleBlock;
 var ResultOfSearch;
 var currelementwidth = 300;
@@ -39,9 +39,7 @@ function mousemove(evt)
   if (Checkmousedown )
 	{
 		VisibleBlock.scrollLeft += XcoordFinish-XcoordStart;
-    var tospeed = XcoordFinish-XcoordStart;//для некой инерции движения
-
-
+    tospeed = XcoordFinish-XcoordStart;//для некой инерции движения
 	}
 	XcoordFinish = evt.screenX;
 }
